@@ -8,16 +8,16 @@ export class Route {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column()
+    @Column('date')
     date:Date;
 
-    @Column()
+    @Column('time')
     hour_start: string;
 
-    @Column()
+    @Column('time')
     hour_end: string;
 
-    @Column()
+    @Column('text')
     polyline: string;
 
     @Column()

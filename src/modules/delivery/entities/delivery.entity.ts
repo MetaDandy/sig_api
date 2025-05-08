@@ -26,12 +26,6 @@ export class Delivery {
     @Column()
     delivery_date: Date  //fecha entrega real
 
-    @Column({ type: "decimal", precision: 10, scale: 2 })
-    latitude: number;
-
-    @Column({ type: "decimal", precision: 10, scale: 2 })
-    length: number;
-
     @ManyToOne(()=> Route, (route)=> route.delivery)
     route: Relation<Route>;
 

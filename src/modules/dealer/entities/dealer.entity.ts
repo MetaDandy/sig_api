@@ -20,7 +20,7 @@ export class Dealer {
   ci: string;
 
   @Column()
-  active: string;
+  active: boolean;
 
   @OneToMany(() => Vehicle, (vehicle) => vehicle.dealer)
   vehicle: Relation<Vehicle[]>;
