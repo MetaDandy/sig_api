@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { RouteService } from './route.service';
 import { CreateRouteDto } from './dto/create-route.dto';
 import { UpdateRouteDto } from './dto/update-route.dto';
@@ -7,7 +16,7 @@ import { FindAllDto } from 'src/dto/findAll.dto';
 
 @Controller('route')
 export class RouteController {
-  constructor(private readonly routeService: RouteService) { }
+  constructor(private readonly routeService: RouteService) {}
 
   @Post()
   create(@Body() createRouteDto: CreateRouteDto) {

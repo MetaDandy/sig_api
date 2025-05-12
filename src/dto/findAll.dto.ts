@@ -17,7 +17,7 @@ export class FindAllDto<T> {
 
   @IsOptional()
   @IsString()
-  orderBy?: keyof T | string = 'createdAt';
+  orderBy?: keyof T | string = 'created_at';
 
   @IsOptional()
   orderDirection?: FindOptionsOrderValue = 'ASC';

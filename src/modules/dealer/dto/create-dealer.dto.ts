@@ -1,4 +1,4 @@
-import { IsBoolean, IsEmail, IsNumberString, IsPhoneNumber, IsString } from "class-validator";
+import { IsBoolean, IsEmail, IsPhoneNumber, IsString } from 'class-validator';
 
 export class CreateDealerDto {
   @IsString()
@@ -8,7 +8,7 @@ export class CreateDealerDto {
   email: string;
 
   @IsString()
-  @IsPhoneNumber("BO")
+  @IsPhoneNumber('BO')
   phone: string;
 
   @IsString()

@@ -12,11 +12,11 @@ export class ClientService {
   constructor(
     @InjectRepository(Client)
     private readonly clientRepo: Repository<Client>,
-    private readonly base: BaseService
-  ){}
-
+    private readonly base: BaseService,
+  ) {}
 
   create(createClientDto: CreateClientDto) {
+    console.log(createClientDto);
     return 'This action adds a new client';
   }
 
@@ -39,6 +39,7 @@ export class ClientService {
   }
 
   update(id: number, updateClientDto: UpdateClientDto) {
+    console.log(updateClientDto);
     return `This action updates a #${id} client`;
   }
 

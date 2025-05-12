@@ -7,13 +7,12 @@ import { faker } from '@faker-js/faker';
 export class ClientSeeder {
   constructor(private readonly dataSource: DataSource) {}
 
-  
   async syncClient(): Promise<void> {
     const repo = this.dataSource.getRepository(Client);
 
     const already = await repo.count();
     if (already > 0) {
-      console.log(`⚠️  Seeding de client omitido: ya existen ${already} registros`);
+      console.log(`⚠️  Seeding de client omitido: ya existen  registros`);
       return;
     }
 
@@ -29,6 +28,6 @@ export class ClientSeeder {
     );
 
     await repo.save(clients);
-    console.log('✅  50 clientes insertados');
+    console.log('✅  clientes insertados');
   }
 }

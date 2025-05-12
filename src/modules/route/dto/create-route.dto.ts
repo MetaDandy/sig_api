@@ -1,4 +1,17 @@
-import { ArrayNotEmpty, IsArray, IsDateString, IsInt, IsNotEmpty, IsNumber, IsString, IsUUID, Matches, Min, registerDecorator, ValidationArguments } from "class-validator";
+import {
+  ArrayNotEmpty,
+  IsArray,
+  IsDateString,
+  IsInt,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  IsUUID,
+  Matches,
+  Min,
+  registerDecorator,
+  ValidationArguments,
+} from 'class-validator';
 
 const TIME_REGEX = /^([01]\d|2[0-3]):[0-5]\d$/;
 
@@ -6,32 +19,32 @@ export class CreateRouteDto {
   @IsDateString({}, { message: 'date must be ISO-8601 (YYYY-MM-DD)' })
   date: string;
 
-  @IsString() 
+  @IsString()
   @Matches(TIME_REGEX, { message: 'hour_start must be HH:mm' })
   hour_start: string;
 
-  @IsString() 
+  @IsString()
   @Matches(TIME_REGEX, { message: 'hour_end must be HH:mm' })
   @IsEndAfterStart('hour_start', { message: 'hour_end must be > hour_start' })
   hour_end: string;
-  
-  @IsString() 
+
+  @IsString()
   @IsNotEmpty()
   polyline: string;
 
-  @IsInt() 
+  @IsInt()
   @Min(1)
   delivery_quantity: number;
 
-  @IsNumber() 
+  @IsNumber()
   @Min(0)
   total_distance: number;
 
   @IsUUID()
   dealer_id: string;
 
-  @IsArray() 
-  @ArrayNotEmpty() 
+  @IsArray()
+  @ArrayNotEmpty()
   @IsUUID('all', { each: true })
   orders: string[];
 }

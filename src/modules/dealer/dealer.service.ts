@@ -12,7 +12,7 @@ export class DealerService {
   constructor(
     @InjectRepository(Dealer)
     private readonly dealerRepo: Repository<Dealer>,
-    private readonly base: BaseService
+    private readonly base: BaseService,
   ) {}
 
   /**

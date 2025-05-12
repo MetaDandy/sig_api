@@ -1,8 +1,17 @@
-import { Route } from "src/modules/route/entities/route.entity";
-import { Vehicle } from "src/modules/vehicle/entities/vehicle.entity";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Relation, UpdateDateColumn } from "typeorm";
+import { Route } from 'src/modules/route/entities/route.entity';
+import { Vehicle } from 'src/modules/vehicle/entities/vehicle.entity';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  Relation,
+  UpdateDateColumn,
+} from 'typeorm';
 
-@Entity({ name: "dealer" })
+@Entity({ name: 'dealer' })
 export class Dealer {
   @PrimaryGeneratedColumn('uuid')
   id: string;

@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { FindAllDto } from '../../dto/findAll.dto';
 import { FindManyOptions, IsNull, Not, Repository } from 'typeorm';
 
@@ -13,14 +18,14 @@ export class BaseService {
    * @returns Un objeto con los datos paginados y metadatos.
    */
   async findAll<T>(
-    repository: Repository<T>, 
-    query: FindAllDto<T>, 
+    repository: Repository<T>,
+    query: FindAllDto<T>,
     relations: string[] = [],
-    options?: FindManyOptions<T>
+    options?: FindManyOptions<T>,
   ) {
     const { limit, page, orderBy, orderDirection } = query;
 
-    const orderField = orderBy || 'createdAt'
+    const orderField = orderBy || 'createdAt';
 
     const [data, totalCount] = await repository.findAndCount({
       take: limit,
@@ -29,7 +34,7 @@ export class BaseService {
       order: {
         [orderField]: orderDirection || 'ASC',
         id: 'ASC', // ← criterio secundario para garantizar orden estable
-      } as any,      
+      } as any,
       ...options,
     });
 
@@ -40,7 +45,7 @@ export class BaseService {
       hasMore: page * limit < totalCount,
       totalPages: Math.ceil(totalCount / limit),
       data,
-    }
+    };
   }
 
   /**
@@ -50,7 +55,11 @@ export class BaseService {
    * @param relations - Relaciones opcionales a incluir.
    * @returns Un objeto con los datos paginados de registros eliminados lógicamente.
    */
-  async findAllSoftDeleted<T>(repository: Repository<T>, query: FindAllDto<T>, relations: string[] = []) {
+  async findAllSoftDeleted<T>(
+    repository: Repository<T>,
+    query: FindAllDto<T>,
+    relations: string[] = [],
+  ) {
     return this.findAll(repository, query, relations, {
       withDeleted: true,
       where: { deletedAt: Not(IsNull()) } as any,
@@ -63,13 +72,18 @@ export class BaseService {
    * @param relations - Relaciones opcionales a incluir.
    * @returns El registro encontrado o una excepción si no existe.
    */
-  async findOne<T>(id: string, repository: Repository<T>, relations: string[] = []) {
+  async findOne<T>(
+    id: string,
+    repository: Repository<T>,
+    relations: string[] = [],
+  ) {
     const entity = await repository.findOne({
       where: { id } as any,
       relations: relations.length > 0 ? relations : undefined,
     });
 
-    if (!entity) throw new NotFoundException(`No se encontró el registro solicitado.`);
+    if (!entity)
+      throw new NotFoundException(`No se encontró el registro solicitado.`);
 
     return entity;
   }
@@ -119,21 +133,23 @@ export class BaseService {
    * @returns El registro eliminado si no tiene relaciones.
    */
   async hardDeleteWithRelationsCheck<T>(
-    id: string, 
-    repository: Repository<T>, 
-    relationCheck: (id: string) => Promise<boolean>
+    id: string,
+    repository: Repository<T>,
+    relationCheck: (id: string) => Promise<boolean>,
   ) {
     try {
       const hasRelations = await relationCheck(id);
-      console.log("✅ hasRelations:", hasRelations);
-  
+      console.log('✅ hasRelations:', hasRelations);
+
       if (hasRelations) {
-        throw new UnauthorizedException('No se puede eliminar el registro porque tiene dependencias');
+        throw new UnauthorizedException(
+          'No se puede eliminar el registro porque tiene dependencias',
+        );
       }
-  
+
       return this.hardDelete(id, repository);
     } catch (err) {
-      console.error("❌ Error en softDeleteWithRelationsCheck:", err);
+      console.error('❌ Error en softDeleteWithRelationsCheck:', err);
       throw err;
     }
   }
@@ -146,21 +162,23 @@ export class BaseService {
    * @returns El registro eliminado lógicamente si no tiene relaciones.
    */
   async softDeleteWithRelationsCheck<T>(
-    id: string, 
-    repository: Repository<T>, 
-    relationCheck: (id: string) => Promise<boolean>
+    id: string,
+    repository: Repository<T>,
+    relationCheck: (id: string) => Promise<boolean>,
   ) {
     try {
       const hasRelations = await relationCheck(id);
-      console.log("✅ hasRelations:", hasRelations);
-  
+      console.log('✅ hasRelations:', hasRelations);
+
       if (hasRelations) {
-        throw new UnauthorizedException('No se puede eliminar el registro porque tiene dependencias');
+        throw new UnauthorizedException(
+          'No se puede eliminar el registro porque tiene dependencias',
+        );
       }
-  
+
       return this.softDelete(id, repository);
     } catch (err) {
-      console.error("❌ Error en softDeleteWithRelationsCheck:", err);
+      console.error('❌ Error en softDeleteWithRelationsCheck:', err);
       throw err;
     }
   }

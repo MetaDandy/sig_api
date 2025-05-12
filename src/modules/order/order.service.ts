@@ -12,32 +12,37 @@ export class OrderService {
   constructor(
     @InjectRepository(Order)
     private readonly orderRepo: Repository<Order>,
-    private readonly base: BaseService
-  ) { }
+    private readonly base: BaseService,
+  ) {}
 
   /**
-  * Crea un orders.
-  * @param createOrderDto - Variables para crear el orders.
-  * @returns El orders creado.
-  */
+   * Crea un orders.
+   * @param createOrderDto - Variables para crear el orders.
+   * @returns El orders creado.
+   */
   async create(createOrderDto: CreateOrderDto) {
-    return await this.orderRepo.save(createOrderDto);
+    const order = this.orderRepo.create({
+      ...createOrderDto,
+      client: { id: createOrderDto.client },
+    });
+
+    return await this.orderRepo.save(order);
   }
 
   /**
- * Obtiene los orders con paginación.
- * @param query - Paginación para la búsqueda.
- * @returns Los orders encontrados.
- */
+   * Obtiene los orders con paginación.
+   * @param query - Paginación para la búsqueda.
+   * @returns Los orders encontrados.
+   */
   async findAll(query: FindAllDto<Order>) {
     return await this.base.findAll(this.orderRepo, query);
   }
 
   /**
-  * Obtiene el orders mediante el uuid.
-  * @param id - Uuid del orders.
-  * @returns El dealer solicitado.
-  */
+   * Obtiene el orders mediante el uuid.
+   * @param id - Uuid del orders.
+   * @returns El dealer solicitado.
+   */
   async findOne(id: string) {
     return await this.base.findOne(id, this.orderRepo);
   }
@@ -62,25 +67,31 @@ export class OrderService {
    * @returns El order actualizado.
    */
   async update(id: string, updateOrderDto: UpdateOrderDto) {
-    const order = await this.findOne(id)
-    this.orderRepo.merge(order, updateOrderDto)
+    const order = await this.findOne(id);
+    this.orderRepo.merge(order, {
+      ...updateOrderDto,
+      client: updateOrderDto.client
+        ? { id: updateOrderDto.client }
+        : order.client,
+    });
+
     return await this.orderRepo.save(order);
   }
 
   /**
- * Elimina lógicamente un order.
- * @param id - Uuid del order.
- * @returns El order eliminado lógicamente.
- */
+   * Elimina lógicamente un order.
+   * @param id - Uuid del order.
+   * @returns El order eliminado lógicamente.
+   */
   async remove(id: string) {
     return await this.base.softDelete(id, this.orderRepo);
   }
 
   /**
-  * Restaura un order y le quita la eliminación lógica.
-  * @param id - Uuid del order.
-  * @returns El order restaurado.
-  */
+   * Restaura un order y le quita la eliminación lógica.
+   * @param id - Uuid del order.
+   * @returns El order restaurado.
+   */
   async restore(id: string) {
     return await this.base.restore(id, this.orderRepo);
   }

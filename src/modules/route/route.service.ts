@@ -16,10 +16,11 @@ export class RouteService {
     @InjectRepository(Route)
     private readonly repo: Repository<Route>,
     @InjectRepository(Delivery)
+    private readonly deliveryRepo: Repository<Delivery>,
     private readonly dealer: DealerService,
     private readonly order: OrderService,
-    private readonly base: BaseService
-  ) { }
+    private readonly base: BaseService,
+  ) {}
 
   async create(createRouteDto: CreateRouteDto) {
     const { orders, dealer_id, ...routeData } = createRouteDto;
@@ -28,12 +29,11 @@ export class RouteService {
 
     const dealer = await this.dealer.findOne(dealer_id);
 
-    return this.repo.manager.transaction(async manager => {
+    return this.repo.manager.transaction(async (manager) => {
       const route = manager.create(Route, {
         ...routeData,
         delivery_quantity: orders.length,
         dealer,
-
       });
       await manager.save(route);
 

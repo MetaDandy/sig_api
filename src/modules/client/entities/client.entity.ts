@@ -1,32 +1,41 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Relation, UpdateDateColumn } from "typeorm";
-import { Order } from "src/modules/order/entities/order.entity"
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  Relation,
+  UpdateDateColumn,
+} from 'typeorm';
+import { Order } from 'src/modules/order/entities/order.entity';
 
-@Entity({ name: "client" })
+@Entity({ name: 'client' })
 export class Client {
-    @PrimaryGeneratedColumn('uuid')
-    id: string
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column()
-    name: string
+  @Column()
+  name: string;
 
-    @Column()
-    email: string
+  @Column()
+  email: string;
 
-    @Column()
-    phone: string
+  @Column()
+  phone: string;
 
-    @Column()
-    address: string
+  @Column()
+  address: string;
 
-    @CreateDateColumn()
-    created_at: Date;
+  @CreateDateColumn()
+  created_at: Date;
 
-    @UpdateDateColumn()
-    updated_at: Date;
+  @UpdateDateColumn()
+  updated_at: Date;
 
-    @DeleteDateColumn()
-    deleted_at: Date;
+  @DeleteDateColumn()
+  deleted_at: Date;
 
-    @OneToMany(() => Order, (order) => order.client)
-    order: Relation<Order[]>;
+  @OneToMany(() => Order, (order) => order.client)
+  order: Relation<Order[]>;
 }

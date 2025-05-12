@@ -9,6 +9,6 @@ import { BaseService } from 'src/services/base/base.service';
   imports: [TypeOrmModule.forFeature([Dealer])],
   controllers: [DealerController],
   providers: [DealerService, BaseService],
-  exports: [DealerService]
+  exports: [DealerService],
 })
 export class DealerModule {}

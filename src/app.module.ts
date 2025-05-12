@@ -16,12 +16,12 @@ import dbConfig from './config/db.config';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal:true,
+      isGlobal: true,
       expandVariables: true,
-      load: [dbConfig]
+      load: [dbConfig],
     }),
     TypeOrmModule.forRootAsync({
-      useFactory: dbConfig
+      useFactory: dbConfig,
     }),
     DealerModule,
     ClientModule,
@@ -30,7 +30,7 @@ import dbConfig from './config/db.config';
     ProductModule,
     RouteModule,
     VehicleModule,
-    DetailOrderModule
+    DetailOrderModule,
   ],
   controllers: [AppController],
   providers: [AppService],

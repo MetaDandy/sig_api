@@ -1,27 +1,33 @@
 import { Order } from 'src/modules/order/entities/order.entity';
 import { Product } from 'src/modules/product/entities/product.entity';
-import {ManyToOne, Entity,PrimaryGeneratedColumn,Column, Relation } from 'typeorm'
+import {
+  ManyToOne,
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  Relation,
+} from 'typeorm';
 
 @Entity()
 export class DetailOrder {
-    @PrimaryGeneratedColumn('uuid')
-    id:number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column()
-    amount:number;
+  @Column()
+  amount: number;
 
-    @Column({ type: "decimal", precision: 10, scale: 2 })
-    unit_price : number;
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  unit_price: number;
 
-    @Column()
-    delivery_address: string;
+  @Column()
+  delivery_address: string;
 
-    @Column({ type: "decimal", precision: 10, scale: 2 })
-    sub_total: number;
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  sub_total: number;
 
-    @ManyToOne(()=> Order, (order) => order.order_detail)
-    order: Relation<Order[]>;
+  @ManyToOne(() => Order, (order) => order.order_detail)
+  order: Relation<Order>;
 
-    @ManyToOne(()=> Product, (product) => product.order_detail)
-    product: Relation<Product>;
+  @ManyToOne(() => Product, (product) => product.order_detail)
+  product: Relation<Product>;
 }
